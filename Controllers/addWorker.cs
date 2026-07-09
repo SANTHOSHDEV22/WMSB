@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WMSB.Models;
 
 namespace WMSB.Controllers
@@ -15,12 +14,12 @@ namespace WMSB.Controllers
             _context = context;
         }
 
-        //GET: api/addWorker
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Worker>>> GetWorkers()
-        {
-            return await _context.Workers.ToListAsync();
-        }
+        ////GET: api/addWorker
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Worker>>> GetWorkers()
+        //{
+        //    return await _context.Workers.ToListAsync();
+        //}
 
         //// GET: api/addWorker/5
         //[HttpGet("{id}")]
