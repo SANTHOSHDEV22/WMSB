@@ -15,25 +15,25 @@ namespace WMSB.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetStatus()
-        {
-            var last = await _context.PunchRecords
-                .OrderByDescending(p => p.Id)
-                .FirstOrDefaultAsync();
+        //[HttpGet]
+        //public async Task<ActionResult> GetStatus()
+        //{
+        //    var last = await _context.PunchRecords
+        //        .OrderByDescending(p => p.Id)
+        //        .FirstOrDefaultAsync();
 
-            bool isSignedIn = last != null && last.PunchType == "IN";
+        //    bool isSignedIn = last != null && last.PunchType == "IN";
 
-            DateTime? signInTimestamp = isSignedIn
-                ? last!.PunchDate.ToDateTime(TimeOnly.FromTimeSpan(last.PunchTime))
-                : null;
+        //    DateTime? signInTimestamp = isSignedIn
+        //        ? last!.PunchDate.ToDateTime(TimeOnly.FromTimeSpan(last.PunchTime))
+        //        : null;
 
-            return Ok(new
-            {
-                isSignedIn,
-                signInTimestamp
-            });
-        }
+        //    return Ok(new
+        //    {
+        //        isSignedIn,
+        //        signInTimestamp
+        //    });
+        //}
 
         [HttpPost]
         public async Task<ActionResult> Punch([FromBody] PunchRequest request)
