@@ -33,15 +33,9 @@ namespace WMSB.Controllers
             worker.PositionId = request.PositionId;
             worker.UpdatedAt = DateTime.UtcNow;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-                return Ok(new { worker.Id, worker.PositionId });
-            }
-            catch (DbUpdateException ex)
-            {
-                return StatusCode(500, $"Database error: {ex.InnerException?.Message ?? ex.Message}");
-            }
+            await _context.SaveChangesAsync();
+            return Ok(new { worker.Id, worker.PositionId });
+
         }
     }
 

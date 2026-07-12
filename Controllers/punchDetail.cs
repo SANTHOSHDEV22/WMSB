@@ -61,22 +61,16 @@ namespace WMSB.Controllers
                 CreatedAt = DateTime.UtcNow
             };
 
-            try
-            {
-                _context.PunchRecords.Add(record);
-                await _context.SaveChangesAsync();
+            _context.PunchRecords.Add(record);
+            await _context.SaveChangesAsync();
 
-                return Ok(new
-                {
-                    record.Id,
-                    record.PunchType,
-                    timestamp = now
-                });
-            }
-            catch (DbUpdateException ex)
+            return Ok(new
             {
-                return StatusCode(500, $"Database error: {ex.InnerException?.Message ?? ex.Message}");
-            }
+                record.Id,
+                record.PunchType,
+                timestamp = now
+            });
+
         }
     }
 

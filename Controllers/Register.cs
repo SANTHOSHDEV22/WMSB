@@ -42,16 +42,10 @@ namespace WMSB.Controllers
                 IsDeleted = 0
             };
 
-            try
-            {
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
-                return Ok(new { user.Id, user.Username, user.Email });
-            }
-            catch (DbUpdateException ex)
-            {
-                return StatusCode(500, $"Database error: {ex.InnerException?.Message ?? ex.Message}");
-            }
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            return Ok(new { user.Id, user.Username, user.Email });
+
         }
     }
 

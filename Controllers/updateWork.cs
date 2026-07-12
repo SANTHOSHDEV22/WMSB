@@ -17,11 +17,6 @@ namespace WMSB.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateWork(int id, Worker worker)
         {
-            //DateTime utcTime = DateTime.UtcNow;
-            //string strUtcTime_s = utcTime.ToString("s");
-
-
-
             var existing = await _context.Workers.FindAsync(id);
             if (existing == null) return NotFound();
             existing.Id = existing.Id;

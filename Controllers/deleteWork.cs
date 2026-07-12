@@ -22,9 +22,14 @@ namespace WMSB.Controllers
             {
                 return NotFound();
             }
-            _context.Workers.Remove(worker);
+
+            worker.IsDeleted = 1;
+
+            _context.Entry(worker).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
     }
 }

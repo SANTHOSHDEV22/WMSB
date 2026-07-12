@@ -31,20 +31,14 @@ namespace WMSB.Controllers
             worker.UpdatedAt = DateTime.UtcNow;
             worker.IsDeleted = 0;
 
-            try
-            {
-                _context.Workers.Add(worker);
-                await _context.SaveChangesAsync();
+            _context.Workers.Add(worker);
+            await _context.SaveChangesAsync();
 
-                worker.AssociateId = worker.Id;
-                await _context.SaveChangesAsync();
+            worker.AssociateId = worker.Id;
+            await _context.SaveChangesAsync();
 
-                return Ok(worker);
-            }
-            catch (DbUpdateException ex)
-            {
-                return StatusCode(500, $"Database error: {ex.InnerException?.Message ?? ex.Message}");
-            }
+            return Ok(worker);
+
         }
     }
 }
