@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WMSB.Models;
 
 namespace WMSB.Controllers
@@ -17,10 +18,33 @@ namespace WMSB.Controllers
         [HttpPost]
         public async Task<ActionResult<Worker>> AddWork([FromBody] Worker worker)
         {
-            _context.Workers.Add(worker);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction("GetWorker", new { id = worker.Id }, worker);
-        }
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
+            bool emailExists = await _context.Workers
+                .AnyAsync(w => w.Email == worker.Email && w.IsDeleted == 0);
+
+            if (emailExists)
+                return Conflict("A worker with this email already exists.");
+
+            worker.CreatedAt = DateTime.UtcNow;
+            worker.UpdatedAt = DateTime.UtcNow;
+            worker.IsDeleted = 0;
+
+            try
+            {
+                _context.Workers.Add(worker);
+                await _context.SaveChangesAsync();
+
+                worker.AssociateId = worker.Id;
+                await _context.SaveChangesAsync();
+
+                return Ok(worker);
+            }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(500, $"Database error: {ex.InnerException?.Message ?? ex.Message}");
+            }
+        }
     }
 }

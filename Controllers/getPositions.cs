@@ -6,23 +6,23 @@ namespace WMSB.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class getWork : ControllerBase
+    public class getPositions : ControllerBase
     {
         private readonly WorkerDbContext _context;
 
-        public getWork(WorkerDbContext context)
+        public getPositions(WorkerDbContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WorkerListDto>>> GetWorkers()
+        public async Task<ActionResult<IEnumerable<Position>>> GetPositions()
         {
-            var workers = await _context.WorkerListDtos
-                .FromSqlRaw("CALL sp_GetWorkers()")
+            var list = await _context.Positions
+                .OrderBy(p => p.Position1)
                 .ToListAsync();
 
-            return Ok(workers);
+            return Ok(list);
         }
     }
 }
