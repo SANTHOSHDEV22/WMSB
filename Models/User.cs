@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace WMSB.Models;
+﻿namespace WMSB.Models;
 
 public partial class User
 {
@@ -22,4 +19,6 @@ public partial class User
     public DateTime UpdatedAt { get; set; }
 
     public sbyte IsDeleted { get; set; }
+
+    public virtual ICollection<PunchRecord> PunchRecords { get; set; } = new List<PunchRecord>();
 }

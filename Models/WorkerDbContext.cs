@@ -20,6 +20,7 @@ public partial class WorkerDbContext : DbContext
     public virtual DbSet<Worker> Workers { get; set; }
 
     public virtual DbSet<WorkerListDto> WorkerListDtos { get; set; }
+
     public virtual DbSet<PunchRecord> PunchRecords { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -75,7 +76,9 @@ public partial class WorkerDbContext : DbContext
             entity.HasIndex(e => e.PositionId, "positionRef_idx");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.AssociateId).HasColumnName("associateId");
+            entity.Property(e => e.AssociateId)
+                .HasMaxLength(10)
+                .HasColumnName("associateId");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime")
@@ -109,13 +112,24 @@ public partial class WorkerDbContext : DbContext
         modelBuilder.Entity<PunchRecord>(entity =>
         {
             entity.ToTable("punch_records");
+
             entity.HasKey(e => e.Id);
+
             entity.Property(e => e.PunchType).HasMaxLength(3).IsRequired();
+
             entity.Property(e => e.PunchDate).HasColumnType("date");
+
             entity.Property(e => e.PunchTime).HasColumnType("time");
+
             entity.Property(e => e.CreatedAt)
                 .HasColumnType("datetime")
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            entity.Property(e => e.UserId).HasColumnName("UserId");
+
+            entity.HasOne(d => d.User).WithMany(u => u.PunchRecords)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_PunchRecords_Users");
         });
 
         modelBuilder.Entity<WorkerListDto>().HasNoKey();

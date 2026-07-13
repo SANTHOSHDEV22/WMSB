@@ -24,12 +24,12 @@ namespace WMSB.Controllers
             if (await _context.Users.AnyAsync(u => u.Email == request.Email && u.IsDeleted == 0))
                 return Conflict("This email is already registered.");
 
-            if (await _context.Users.AnyAsync(u => u.Username == request.Username && u.IsDeleted == 0))
-                return Conflict("This username is already taken.");
+            //if (await _context.Users.AnyAsync(u => u.Username == request.Username && u.IsDeleted == 0))
+            //    return Conflict("This username is already taken.");
 
-            if (!string.IsNullOrEmpty(request.Contact) &&
-                await _context.Users.AnyAsync(u => u.Contact == request.Contact && u.IsDeleted == 0))
-                return Conflict("This contact number is already registered.");
+            //if (!string.IsNullOrEmpty(request.Contact) &&
+            //    await _context.Users.AnyAsync(u => u.Contact == request.Contact && u.IsDeleted == 0))
+            //    return Conflict("This contact number is already registered.");
 
             var user = new User
             {

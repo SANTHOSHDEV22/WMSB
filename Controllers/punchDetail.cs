@@ -31,7 +31,8 @@ namespace WMSB.Controllers
             return Ok(new
             {
                 isSignedIn,
-                signInTimestamp
+                signInTimestamp,
+                userId = isSignedIn ? last!.UserId : null
             });
         }
 
@@ -58,7 +59,8 @@ namespace WMSB.Controllers
                 PunchType = request.PunchType,
                 PunchDate = DateOnly.FromDateTime(now),
                 PunchTime = now.TimeOfDay,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                UserId = request.UserId
             };
 
             _context.PunchRecords.Add(record);
@@ -68,14 +70,15 @@ namespace WMSB.Controllers
             {
                 record.Id,
                 record.PunchType,
+                record.UserId,
                 timestamp = now
             });
-
         }
     }
 
     public class PunchRequest
     {
         public string PunchType { get; set; } = null!;
+        public int? UserId { get; set; }
     }
 }

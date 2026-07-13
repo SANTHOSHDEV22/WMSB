@@ -34,11 +34,10 @@ namespace WMSB.Controllers
             _context.Workers.Add(worker);
             await _context.SaveChangesAsync();
 
-            worker.AssociateId = worker.Id;
+            worker.AssociateId = "EMP" + worker.Id.ToString("D3");
             await _context.SaveChangesAsync();
 
             return Ok(worker);
-
         }
     }
 }

@@ -20,16 +20,11 @@ namespace WMSB.Controllers
             var worker = await _context.Workers.FindAsync(id);
             if (worker == null)
             {
-                return NotFound();
+                return NotFound("Worker not found.");
             }
-
-            worker.IsDeleted = 1;
-
-            _context.Entry(worker).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
+            _context.Workers.Remove(worker);
             await _context.SaveChangesAsync();
             return NoContent();
         }
-
     }
 }

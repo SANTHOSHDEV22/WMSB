@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace WMSB.Models;
+﻿namespace WMSB.Models;
 
 public partial class Worker
 {
     public int Id { get; set; }
 
-    public int? AssociateId { get; set; }
+    public string? AssociateId { get; set; }
 
     public string? FirstName { get; set; }
 
