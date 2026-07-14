@@ -18,11 +18,14 @@ namespace WMSB.Controllers
         public async Task<IActionResult> DeleteWorker(int id)
         {
             var worker = await _context.Workers.FindAsync(id);
-            if (worker == null)
+            if (worker == null || worker.IsDeleted == 1)
             {
                 return NotFound("Worker not found.");
             }
-            _context.Workers.Remove(worker);
+
+            worker.IsDeleted = 1;
+            worker.UpdatedAt = DateTime.UtcNow;
+
             await _context.SaveChangesAsync();
             return NoContent();
         }
