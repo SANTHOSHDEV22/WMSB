@@ -43,6 +43,10 @@ public partial class WorkerDbContext : DbContext
             entity.Property(e => e.Position1)
                 .HasMaxLength(50)
                 .HasColumnName("Position");
+
+            entity.Property(e => e.Colour)
+                .HasMaxLength(7)
+                .HasColumnName("Colour");
         });
 
         modelBuilder.Entity<User>(entity =>
